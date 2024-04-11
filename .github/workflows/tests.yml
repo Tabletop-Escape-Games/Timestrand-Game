@@ -1,0 +1,39 @@
+name: Execute tests
+
+on: [push]
+
+jobs:
+  tests:
+    name: Execute tests
+    runs-on: ubuntu-latest
+    steps:
+      # checkout
+      - name: checkout-repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # cache
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+            
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          
+      # Save test result artifacts
+      - name: Save test result artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test results
+          path: artifacts
