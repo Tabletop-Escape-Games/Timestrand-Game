@@ -1,7 +1,5 @@
 using UnityEngine;
 
-//test
-
 public class DragController : MonoBehaviour
 {
     public Draggable LastDragged => _lastDragged; // Geeft het draggable object terug in _lastDragged
