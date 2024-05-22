@@ -18,6 +18,7 @@ public class DragController : MonoBehaviour
             Destroy( gameObject );
         }
     }
+            }
 
     // Update wordt elke frame aangeroepen
     private void Update()
