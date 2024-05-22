@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Controllers.LineControllers;
+using Interfaces;
 using UnityEngine;
 
 namespace Controllers
@@ -13,10 +15,12 @@ namespace Controllers
         [SerializeField] private string gameOverTag;
         [SerializeField] private string colorTag;
         [SerializeField] private float bounceBackForce = 0.5f;
+        [SerializeField] private string controlType;
 
         readonly List<Vector3> _linePositions = new (); // Lijst van posities van de lijn
         Vector3 _direction = Vector3.up; // De richting van de lijn
         private Camera _mainCamera; // De main camera in de scene
+        private ILineController lineController; // De linecontroller in de scene
     
         // Start is called before the first frame update
         void Start()
@@ -25,6 +29,7 @@ namespace Controllers
             collider = GetComponent<EdgeCollider2D>();
             rb = GetComponent<Rigidbody2D>();
 
+            lineController = LineControllerFactory.CreateLineController(controlType);
             //Als er geen rigidbody2d component is toegevoegd, voeg er dan een toe
             if (rb == null)
             {
@@ -45,16 +50,12 @@ namespace Controllers
         // Update is called once per frame
         void Update()
         {
-            float moveHorizontal = Input.GetAxis("Horizontal");
+            Vector3 inputDirection = lineController.GetDirection();
 
-            if (moveHorizontal != 0)
+            if (inputDirection != Vector3.zero)
             {
-                _direction = new Vector3(moveHorizontal, 0f, 0f).normalized; // Stelt de richting in op basis van de invoer
-                _direction = ApplyDeviation(_direction, deviationAngle); // Past de richting aan met een afwijking
-            }
-            else
-            {
-                _direction = new Vector3(0f, 1f, 0f); // Stelt de richting in op omhoog als er geen invoer is
+                _direction = inputDirection;
+                _direction = ApplyDeviation(_direction, deviationAngle);
             }
 
             MoveLine();
