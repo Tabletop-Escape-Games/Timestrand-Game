@@ -8,17 +8,16 @@ public class DragController : MonoBehaviour
     private Vector3 _worldPosition; // De positie van de muis in de wereld 
     private Draggable _lastDragged; // Het laatstgesleepte game object van de draggable klasse
 
-    // Awake wordt aangeroepen wanneer het script wordt geladen
-    private void Awake()
-    {
-        // Zoek alle dragcontrollers in de scene, als er meer dan 1 is, verwijder dan de huidige dragcontroller
-        DragController[] controllers = FindObjectsOfType<DragController>();
-        if (controllers.Length > 1 )
+        // Awake wordt aangeroepen wanneer het script wordt geladen
+        private void Awake()
         {
-            Destroy( gameObject );
-        }
-    }
+            // Zoek alle dragcontrollers in de scene, als er meer dan 1 is, verwijder dan de huidige dragcontroller
+            DragController[] controllers = FindObjectsOfType<DragController>();
+            if (controllers.Length > 1 )
+            {
+                Destroy( gameObject );
             }
+        }
 
     // Update wordt elke frame aangeroepen
     private void Update()

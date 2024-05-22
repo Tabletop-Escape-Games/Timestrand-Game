@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - DropInvalid
+  - DropValid
+  - gameOver
+  - leftBoundary
+  - rightBoundary
   layers:
   - Default
   - TransparentFX
@@ -11,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Dragging
   - 
   - 
   - 
@@ -40,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Puzzle
+    uniqueID: 57964057
+    locked: 0
+  - name: Pieces
+    uniqueID: 2516066455
     locked: 0
