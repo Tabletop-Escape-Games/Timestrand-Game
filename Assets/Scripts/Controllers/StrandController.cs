@@ -116,7 +116,20 @@ namespace Controllers
             }
             return vector2Array;
         }
-        
+
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            // We hebben een hit, vergelijk of de kleur van de lijn overeen komt met de kleur van het target
+            if (collider.CompareTag(colorTag))
+            {
+                // Hit met een valide target, doe er iets mee (in dit geval log in de console)
+                Debug.Log($"Collision with {collider.name} detected!");
+
+                // Verwijder het collider component van het target zodat deze niet nogmaals geraakt kan worden
+                Destroy(collider);
+            }
+        }
+
         void OnCollisionEnter2D(Collision2D collision) // Wordt aangeroepen als er een botsing is
         {
             if (collision.gameObject.CompareTag(gameOverTag)) // Als de tag van het object dat botst gelijk is aan de gameOverTag

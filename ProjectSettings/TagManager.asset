@@ -9,6 +9,10 @@ TagManager:
   - gameOver
   - leftBoundary
   - rightBoundary
+  - Green
+  - Red
+  - Blue
+  - Yellow
   layers:
   - Default
   - TransparentFX
