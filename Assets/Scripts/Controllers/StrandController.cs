@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Controllers.LineControllers;
 using Interfaces;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Controllers
 {
@@ -127,6 +128,9 @@ namespace Controllers
 
                 // Verwijder het collider component van het target zodat deze niet nogmaals geraakt kan worden
                 Destroy(collider);
+            } else if (collider.CompareTag("gameOver"))
+            {
+                SceneManager.LoadScene("ScoreScreen");
             }
         }
 
