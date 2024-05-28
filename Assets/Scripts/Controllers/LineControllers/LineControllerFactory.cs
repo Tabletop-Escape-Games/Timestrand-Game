@@ -9,6 +9,10 @@ namespace Controllers.LineControllers
             return lineControllerType switch
             {
                 "arrowKeys" => new ArrowKeyLineController(),
+                "QE" => new QELineController(),
+                "ZC" => new ZCLineController(),
+                "IP" => new IPLineController(),
+                "BM" => new BMLineController(),
                 _ => null
             };
         }

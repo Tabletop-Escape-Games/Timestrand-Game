@@ -387,7 +387,7 @@ MonoBehaviour:
   gameOverTag: gameOver
   colorTag: Blue
   bounceBackForce: 0.5
-  controlType: arrowKeys
+  controlType: ZC
 --- !u!68 &221621303
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1294,7 +1294,7 @@ MonoBehaviour:
   gameOverTag: gameOver
   colorTag: Red
   bounceBackForce: 0.5
-  controlType: arrowKeys
+  controlType: BM
 --- !u!50 &730788904
 Rigidbody2D:
   serializedVersion: 4
@@ -1652,7 +1652,7 @@ MonoBehaviour:
   gameOverTag: gameOver
   colorTag: Yellow
   bounceBackForce: 0.5
-  controlType: arrowKeys
+  controlType: IP
 --- !u!50 &770421756
 Rigidbody2D:
   serializedVersion: 4
@@ -3287,7 +3287,7 @@ MonoBehaviour:
   gameOverTag: gameOver
   colorTag: Green
   bounceBackForce: 0.5
-  controlType: arrowKeys
+  controlType: QE
 --- !u!50 &1699354568
 Rigidbody2D:
   serializedVersion: 4
