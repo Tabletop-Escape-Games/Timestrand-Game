@@ -13,6 +13,7 @@ TagManager:
   - Red
   - Blue
   - Yellow
+  - ScoreText
   layers:
   - Default
   - TransparentFX

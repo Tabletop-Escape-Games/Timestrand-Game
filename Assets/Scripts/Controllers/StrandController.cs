@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Controllers.LineControllers;
+using Controllers.ScoreControllers;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,7 @@ namespace Controllers
         Vector3 _direction = Vector3.up; // De richting van de lijn
         private Camera _mainCamera; // De main camera in de scene
         private ILineController lineController; // De linecontroller in de scene
+        private PointScoreStrategy pointScoreStrategy; // De scorestrategy in de scene
     
         // Start is called before the first frame update
         void Start()
@@ -29,6 +31,7 @@ namespace Controllers
             lineRenderer = GetComponent<LineRenderer>();
             collider = GetComponent<EdgeCollider2D>();
             rb = GetComponent<Rigidbody2D>();
+            pointScoreStrategy = new PointScoreStrategy();
 
             lineController = LineControllerFactory.CreateLineController(controlType);
             //Als er geen rigidbody2d component is toegevoegd, voeg er dan een toe
@@ -124,33 +127,27 @@ namespace Controllers
             if (collider.CompareTag(colorTag))
             {
                 // Hit met een valide target, doe er iets mee (in dit geval log in de console)
-                Debug.Log($"Collision with {collider.name} detected!");
+                //Debug.Log($"Collision with {collider.name} detected!");
+                GameController.Instance.UpdateScore(pointScoreStrategy, 2);
+                Debug.Log(GameController.Instance.GetScore());
 
                 // Verwijder het collider component van het target zodat deze niet nogmaals geraakt kan worden
                 Destroy(collider);
             } else if (collider.CompareTag("gameOver"))
             {
-                SceneManager.LoadScene("ScoreScreen");
+                GameController.Instance.GameOver();
             }
         }
 
         void OnCollisionEnter2D(Collision2D collision) // Wordt aangeroepen als er een botsing is
         {
-            if (collision.gameObject.CompareTag(gameOverTag)) // Als de tag van het object dat botst gelijk is aan de gameOverTag
-            {
-                Debug.Log("Game Over!");
-            }
-            else if (collision.gameObject.CompareTag("leftBoundary") || collision.gameObject.CompareTag("rightBoundary")) // Als de tag van het object dat botst gelijk is aan de leftBoundary of rightBoundary
+            if (collision.gameObject.CompareTag("leftBoundary") || collision.gameObject.CompareTag("rightBoundary")) // Als de tag van het object dat botst gelijk is aan de leftBoundary of rightBoundary
             {
                 // TODO: verbeter logicatie voor botsing met de zijkanten, heeft nu onverwachte effecten
                 Vector2 normal = collision.contacts[0].normal; // Vector van het botsingspunt bepalen
                 Vector2 reflectionDirection = Vector2.Reflect(_direction, normal).normalized; // Reflectiepunt berekenen op basis van de botsingsvector
                 _direction = reflectionDirection; // Richting instellen op de reflectievector
                 ApplyBounceBackForce(); // Botsingkracht toepassen
-            }
-            else if (collision.gameObject.CompareTag(colorTag)) // Als de tag van het object dat botst gelijk is aan de colorTag
-            {
-                Debug.Log($"{colorTag} detected!");
             }
         }
 
