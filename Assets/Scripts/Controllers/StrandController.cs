@@ -54,15 +54,30 @@ namespace Controllers
         // Update is called once per frame
         void Update()
         {
-            Vector3 inputDirection = lineController.GetDirection();
+            /*Vector3 inputDirection = lineController.GetDirection();
 
             if (inputDirection != Vector3.zero)
             {
                 _direction = inputDirection;
                 _direction = ApplyDeviation(_direction, deviationAngle);
-            }
+            }*/
 
             MoveLine();
+        }
+        
+        public void MoveLeft()
+        {
+            _direction = Vector3.left;
+        }
+
+        public void MoveRight()
+        {
+            _direction = Vector3.right;
+        }
+
+        public void MoveUp()
+        {
+            _direction = Vector3.up;
         }
     
         // Past de afwijking toe op de bewegingsrichting

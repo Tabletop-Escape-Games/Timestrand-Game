@@ -51,9 +51,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Puzzle
+  - name: Background
     uniqueID: 57964057
     locked: 0
-  - name: Pieces
+  - name: Strands
     uniqueID: 2516066455
+    locked: 0
+  - name: UI
+    uniqueID: 1329846239
     locked: 0

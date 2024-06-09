@@ -11,6 +11,7 @@ namespace Controllers
         public static GameController Instance { get; private set; }
         
         [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField]private ButtonPositionManager buttonPositionManager;
         private int _score;
 
         private void Awake()
@@ -86,6 +87,11 @@ namespace Controllers
         public void UpdateScore(IScoreStrategy scoreStrategy, int points)
         {
             _score = scoreStrategy.CalculateScore(_score, points);
+            
+            if (_score % 10 == 0)
+            {
+                buttonPositionManager.ChangeButtonConfiguration();
+            }
         }
         
         private void FindScoreText()
