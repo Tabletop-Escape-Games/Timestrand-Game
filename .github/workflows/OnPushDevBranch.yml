@@ -10,4 +10,17 @@ jobs:
     name: Execute tests
     uses: ./.github/workflows/UnityTests.yml
     secrets: inherit
-  
+    
+  merge-branch:
+    name: Merge to Main branch
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@master
+      - name: Merge Dev to Main
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
