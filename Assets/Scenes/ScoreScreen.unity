@@ -577,8 +577,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1564175084}
-        m_TargetAssemblyTypeName: Controllers.GameController, Assembly-CSharp
+      - m_Target: {fileID: 795246289}
+        m_TargetAssemblyTypeName: Controllers.ScoreScreenController, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
@@ -1053,9 +1053,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1564175084}
-        m_TargetAssemblyTypeName: Controllers.GameController, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 1864783184}
+        m_TargetAssemblyTypeName: Controllers.ScoreScreenController, Assembly-CSharp
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
