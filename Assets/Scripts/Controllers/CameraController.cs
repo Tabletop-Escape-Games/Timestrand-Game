@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private float scrollSpeed = 2f; // Speed at which the camera scrolls
 
-    void Update()
+    void FixedUpdate()
     {
         // Move the camera upwards over time
         var cameraPos = transform;

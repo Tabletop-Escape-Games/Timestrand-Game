@@ -51,12 +51,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Overlay
     uniqueID: 57964057
-    locked: 0
-  - name: Strands
-    uniqueID: 2516066455
-    locked: 0
-  - name: UI
-    uniqueID: 1329846239
     locked: 0

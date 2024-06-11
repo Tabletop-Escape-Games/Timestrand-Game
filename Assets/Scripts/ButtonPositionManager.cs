@@ -1,4 +1,4 @@
-﻿namespace Controllers
+namespace Controllers
 {
     using System.Collections.Generic;
     using UnityEngine;
@@ -10,7 +10,7 @@
 
         void Start()
         {
-            // Sla de initiële posities van de knoppen op
+            // Sla de initi�le posities van de knoppen op
             foreach (var button in buttons)
             {
                 initialPositions.Add(button.anchoredPosition);

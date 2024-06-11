@@ -13,6 +13,10 @@ namespace Controllers.LineControllers
                 "ZC" => new ZCLineController(),
                 "IP" => new IPLineController(),
                 "BM" => new BMLineController(),
+                "BlueButton" => new ButtonLineController("Blue"),
+                "RedButton" => new ButtonLineController("Red"),
+                "GreenButton" => new ButtonLineController("Green"),
+                "YellowButton" => new ButtonLineController("Yellow"),
                 _ => null
             };
         }
