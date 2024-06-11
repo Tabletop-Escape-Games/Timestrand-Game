@@ -13,7 +13,8 @@ on:
 jobs:  
   buildWithLinux:  
     name: Build in Linux for ${{ inputs.platform }}
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest 
+    permissions: write-all     
     outputs:  
       buildVersion: ${{ steps.build.outputs.buildVersion }}  
     steps:  

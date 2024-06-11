@@ -10,6 +10,7 @@ jobs:
     name: Execute tests
     uses: ./.github/workflows/UnityTests.yml
     secrets: inherit
+    permissions: write-all 
     
   merge-branch:
     name: Merge to Main branch

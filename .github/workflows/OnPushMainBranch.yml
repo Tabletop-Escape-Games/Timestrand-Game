@@ -12,11 +12,13 @@ jobs:
     with:
       platform: WebGL
     secrets: inherit
+    permissions: write-all 
 
   deployToGitHubPages:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: buildForWebGL
+    permissions: write-all 
     steps:
       - name: Echo Build Version
         run: echo ${{ needs.buildForWebGL.outputs.buildVersion }}
