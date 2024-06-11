@@ -1,0 +1,48 @@
+name: Build and Deploy on Main branch
+
+on: 
+  push:
+    branches:
+      - main
+    
+jobs: 
+  buildForWebGL:
+    name: Build for WebGL
+    uses: ./.github/workflows/UnityBuild.yml
+    with:
+      platform: WebGL
+    secrets: inherit
+    permissions: write-all 
+
+  deployToGitHubPages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: buildForWebGL
+    permissions: write-all 
+    steps:
+      - name: Echo Build Version
+        run: echo ${{ needs.buildForWebGL.outputs.buildVersion }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: false
+
+      - name: Download WebGL Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-WebGL
+          path: build/WebGL
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/WebGL/WebGL
+          commit-message: Deploy
+          single-commit: true
+
+      - name: Cleanup to avoid storage limit
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build-WebGL
