@@ -1,20 +1,22 @@
-name: Execute tests
+name: UnityTests
 
-on: [push]
+on:
+  workflow_call:
 
 jobs:
   tests:
-    name: Execute tests
+    name: Run tests using GameCI
     runs-on: ubuntu-latest
     steps:
       # checkout
-      - name: checkout-repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
       # cache
-      - uses: actions/cache@v4
+      - name: Cache library
+        uses: actions/cache@v4
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -32,7 +34,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           
       # Save test result artifacts
-      - name: Save test result artifacts
+      - name: Save result artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Test results
