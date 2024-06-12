@@ -257,7 +257,7 @@ LineRenderer:
   - {x: -0.006195307, y: -4.5425277, z: -16.253666}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1714,7 +1714,7 @@ LineRenderer:
   - {x: -0.006195307, y: -4.5425277, z: -16.253666}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1997,7 +1997,7 @@ LineRenderer:
   - {x: -0.006195307, y: -4.5425277, z: -16.253666}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4298,7 +4298,7 @@ LineRenderer:
   - {x: -0.006195307, y: -4.5425277, z: -16.253666}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
