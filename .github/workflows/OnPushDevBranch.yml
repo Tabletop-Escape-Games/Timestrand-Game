@@ -30,5 +30,6 @@ jobs:
   build-deploy:
     name: Build and deploy
     uses: ./.github/workflows/OnPushMainBranch.yml
+    needs: merge-branch
     secrets: inherit
     permissions: write-all 
