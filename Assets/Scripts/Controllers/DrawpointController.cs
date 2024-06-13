@@ -8,8 +8,10 @@ using UnityEngine;
 
 public class DrawpointController : MonoBehaviour
 {
+    [Tooltip("A string defining the LineControllers to be created by the LineController Factory")]
     [SerializeField] public string controlType;
-    [SerializeField] public float scrollSpeed = 2f;
+
+    [Tooltip("The amplification of the force to be applied when a line bounces from a boundary.")]
     [SerializeField] public float bounceBackForce = 4f;
 
     private Camera _mainCamera;                         // De main camera in de scene
@@ -33,17 +35,17 @@ public class DrawpointController : MonoBehaviour
             0f);
 
         // Add a velocity to the pointer corresponding to the camera
-        _rigidBody.velocity = Vector3.up * scrollSpeed;
+        _rigidBody.velocity = Vector3.up * Settings.scrollSpeed;
     }
 
     void FixedUpdate()
     {
         // Set horizontal movement by adding force
         float dx = _lineController.GetDirection().x;
-        _rigidBody.AddForce(Vector3.right * dx * scrollSpeed);
+        _rigidBody.AddForce(Vector3.right * dx * Settings.scrollSpeed);
 
         // But keep the vertical speed in line with the camera
-        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, scrollSpeed, 0f);
+        _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, Settings.scrollSpeed, 0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision) // Wordt aangeroepen als er een botsing is
@@ -65,7 +67,7 @@ public class DrawpointController : MonoBehaviour
         {
             // Hit met een valide target, doe er iets mee (in dit geval log in de console)
             //Debug.Log($"Collision with {collider.name} detected!");
-            GameController.Instance.UpdateScore(_scoreStrategy, 2);
+            GameController.Instance.UpdateScore(_scoreStrategy, Settings.pointsPerHit);
             Debug.Log(GameController.Instance.GetScore());
 
             // Verwijder het collider component van het target zodat deze niet nogmaals geraakt kan worden

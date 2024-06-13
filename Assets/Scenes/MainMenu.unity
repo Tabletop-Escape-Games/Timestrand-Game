@@ -286,6 +286,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  buttonPositionManager: {fileID: 0}
+  _pointsPerHit: 2
+  _pointsTrigger: 10
+  _gameMode: 1
 --- !u!4 &420015473
 Transform:
   m_ObjectHideFlags: 0
