@@ -13,9 +13,9 @@ namespace Controllers
     {
         public static GameController Instance { get; private set; }
         
-        [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private ButtonPositionManager buttonPositionManager;
-        private int _score;
+        [SerializeField] private Slider _scoreBar;
 
         [Tooltip("The amount of points to award when a line hits a target of the same color")]
         [SerializeField] int _pointsPerHit = 2;
@@ -25,6 +25,9 @@ namespace Controllers
 
         [Tooltip("The mode in which this game will run")]
         [SerializeField] GameMode _gameMode = GameMode.Basic;
+
+        private int _score;
+        private int _maxScore;
 
         private void Awake()
         {
@@ -54,8 +57,6 @@ namespace Controllers
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // Zoek de UI-elementen in de nieuwe scène
-            FindScoreText();
             UpdateScoreUI();
         }
         
@@ -98,8 +99,10 @@ namespace Controllers
             }
             Debug.Log($"Configuration used: GameMode: {Settings.gameMode}, Points per hit: {Settings.pointsPerHit}, Points trigger: {Settings.pointsTrigger}.");
 
-            // Probeer de scoreText te vinden in de huidige scène
-            FindScoreText();
+            // Calculate the max achievable score
+            _maxScore = 40 * Settings.pointsPerHit; // There are currently 40 targets drawn on the canvas
+
+            // Update de UI
             UpdateScoreUI();
         }
 
@@ -113,7 +116,6 @@ namespace Controllers
         public void GameOver()
         {
             SceneManager.LoadScene("ScoreScreen");
-            FindScoreText();
             UpdateScoreUI();
         }
 
@@ -135,7 +137,11 @@ namespace Controllers
         
         public void UpdateScore(IScoreStrategy scoreStrategy, int points)
         {
+            // Calculate score
             _score = scoreStrategy.CalculateScore(_score, points);
+
+            // Update the UI
+            UpdateScoreUI();
 
             // If the player has a multiple of the trigger, execute action based on game mode
             if (_score % Settings.pointsTrigger == 0)
@@ -160,27 +166,49 @@ namespace Controllers
             }
         }
         
-        private void FindScoreText()
+        private TextMeshProUGUI FindScoreText()
         {
-            if (scoreText == null)
+            if (_scoreText == null)
             {
                 // Probeer een TextMeshProUGUI object te vinden met de tag "ScoreText"
                 GameObject scoreTextObject = GameObject.FindWithTag("ScoreText");
                 if (scoreTextObject != null)
                 {
-                    scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
+                    _scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
                     Debug.Log("ScoreText found");
                 } else Debug.LogWarning("ScoreText not found");
-            }
+            } 
+            return _scoreText;
+        }
+
+        private Slider FindScoreBar()
+        {
+            if (_scoreBar == null)
+            {
+                // Probeer een Slider object te vinden met de tag "ScoreBar"
+                GameObject scoreBarObject = GameObject.FindWithTag("ScoreBar");
+                if (scoreBarObject != null)
+                {
+                    _scoreBar = scoreBarObject.GetComponent<Slider>();
+                }
+            } 
+            return _scoreBar;
         }
         
         private void UpdateScoreUI()
         {
-            if (scoreText != null)
+            _scoreText = FindScoreText();
+            if (_scoreText != null)
             {
-                Debug.Log($"Score: {_score}");
-                scoreText.text = $"Score: {_score}";
-            } else Debug.LogWarning("ScoreText not assigned");
+                _scoreText.text = $"Score: {_score}";
+            } else Debug.LogWarning($"ScoreText not assigned. Score: {_score}");
+
+            _scoreBar = FindScoreBar();
+            if (_scoreBar != null)
+            {
+                _scoreBar.value = (float)_score / _maxScore;
+            }
+            else Debug.LogWarning("ScoreBar not assigned");
         }
     }
 }
