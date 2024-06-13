@@ -1,8 +1,11 @@
 ﻿using Interfaces;
+using System.Web;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Specialized;
 
 namespace Controllers
 {
@@ -13,6 +16,15 @@ namespace Controllers
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private ButtonPositionManager buttonPositionManager;
         private int _score;
+
+        [Tooltip("The amount of points to award when a line hits a target of the same color")]
+        [SerializeField] int _pointsPerHit = 2;
+        
+        [Tooltip("When the player reaches a multiple of this number a game action depending of the mode will be started")]
+        [SerializeField] int _pointsTrigger = 10;
+
+        [Tooltip("The mode in which this game will run")]
+        [SerializeField] GameMode _gameMode = GameMode.Basic;
 
         private void Awake()
         {
@@ -49,6 +61,43 @@ namespace Controllers
         
         private void Start()
         {
+            // Store the configuration provided to controller in the settings
+            Settings.pointsPerHit = _pointsPerHit;
+            Settings.pointsTrigger = _pointsTrigger;
+            Settings.gameMode = _gameMode;
+            
+            // Depending on the platform try to get the configuration from parameters
+            Debug.Log("Platform: " + Application.platform);
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WebGLPlayer:
+                    Debug.Log("URL: " + Application.absoluteURL);
+
+                    Uri uri = new Uri(Application.absoluteURL);
+                    NameValueCollection parameters = HttpUtility.ParseQueryString(uri.Query);
+
+                    if(Enum.TryParse(parameters["gameMode"], out GameMode gameMode))
+                    {
+                        Settings.gameMode = gameMode;
+                    }
+
+                    if(int.TryParse(parameters["pointsPerHit"], out int pointsPerHit) && pointsPerHit > 0)
+                    {
+                        Settings.pointsPerHit = pointsPerHit;
+                    }
+
+                    if (int.TryParse(parameters["pointsTrigger"], out int pointsTrigger) && pointsTrigger > 0)
+                    {
+                        Settings.pointsTrigger = pointsTrigger;
+                    }
+                    break;
+                case RuntimePlatform.WindowsPlayer:
+                default:
+                    // Do nothing (variables provided to the controller will be used)
+                    break;
+            }
+            Debug.Log($"Configuration used: GameMode: {Settings.gameMode}, Points per hit: {Settings.pointsPerHit}, Points trigger: {Settings.pointsTrigger}.");
+
             // Probeer de scoreText te vinden in de huidige scène
             FindScoreText();
             UpdateScoreUI();
@@ -88,11 +137,22 @@ namespace Controllers
         {
             _score = scoreStrategy.CalculateScore(_score, points);
 
-            if(_score % 10 == 0)
+            // If the player has a multiple of the trigger, execute action based on game mode
+            if (_score % Settings.pointsTrigger == 0)
             {
-                buttonPositionManager = FindFirstObjectByType<ButtonPositionManager>();
-                buttonPositionManager.ChangeButtonConfiguration();
-                Debug.LogWarning("Switch!");
+                switch (Settings.gameMode)
+                {
+                    case GameMode.SwitchButtons:
+                        // Switch buttons
+                        buttonPositionManager = FindFirstObjectByType<ButtonPositionManager>();
+                        buttonPositionManager.ChangeButtonConfiguration();
+                        Debug.LogWarning("Switch!");
+                        break;
+                    case GameMode.Basic:
+                    default:
+                        // Do nothing
+                        break;
+                }
             }
         }
         
