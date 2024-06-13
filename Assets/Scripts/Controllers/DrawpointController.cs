@@ -65,10 +65,9 @@ public class DrawpointController : MonoBehaviour
         // We hebben een hit, vergelijk of de kleur van de lijn overeen komt met de kleur van het target
         if (collider.CompareTag(_colorTag))
         {
-            // Hit met een valide target, doe er iets mee (in dit geval log in de console)
-            //Debug.Log($"Collision with {collider.name} detected!");
+            // Hit met een valide target, ken punten toe
             GameController.Instance.UpdateScore(_scoreStrategy, Settings.pointsPerHit);
-            Debug.Log(GameController.Instance.GetScore());
+            Debug.Log($"Target {_colorTag} hit, {Settings.pointsPerHit} point(s) awarded. New score {GameController.Instance.GetScore()}.");
 
             // Verwijder het collider component van het target zodat deze niet nogmaals geraakt kan worden
             Destroy(collider);

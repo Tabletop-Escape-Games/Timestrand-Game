@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlType: GreenButton
-  scrollSpeed: 2
   bounceBackForce: 4
 --- !u!50 &455881567352328003
 Rigidbody2D:
