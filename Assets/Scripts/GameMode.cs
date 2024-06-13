@@ -1,5 +1,6 @@
 public enum GameMode
 {
     Basic,
-    SwitchButtons
+    SwitchButtons,
+    SpeedUp
 }
