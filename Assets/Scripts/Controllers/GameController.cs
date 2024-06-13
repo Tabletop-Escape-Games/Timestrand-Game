@@ -146,7 +146,11 @@ namespace Controllers
                         // Switch buttons
                         buttonPositionManager = FindFirstObjectByType<ButtonPositionManager>();
                         buttonPositionManager.ChangeButtonConfiguration();
-                        Debug.LogWarning("Switch!");
+                        Debug.LogWarning("Switch buttons!");
+                        break;
+                    case GameMode.SpeedUp:
+                        Settings.scrollSpeed += 0.5f;
+                        Debug.LogWarning("Speed up!");
                         break;
                     case GameMode.Basic:
                     default:
