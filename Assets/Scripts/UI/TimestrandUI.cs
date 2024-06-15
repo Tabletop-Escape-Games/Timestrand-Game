@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Controllers.LineControllers;
-using Controllers.ScoreControllers;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
