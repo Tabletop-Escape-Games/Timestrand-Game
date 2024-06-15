@@ -48,4 +48,29 @@ public class ButtonPositionControllerTests
         Assert.AreNotEqual(_positions, newPositions); // The order should have changed, so the list themselves should not be the same
     }
     
+    [Test]
+    public void Assert_That_Vectors_Stay_The_Same_After_Shuffle()
+    {
+        //Act
+        List<Vector2> newPositions = _controller.ShufflePositions();
+        
+        foreach (Vector2 position in _positions)
+        {
+            newPositions.Remove(position);
+        }
+
+        //Assert
+        Assert.IsEmpty(newPositions, "Found a second occurrence of position coordinates"); // All the items from the first list should occur only once in the second list
+    }
+
+    [Test]
+    public void Assert_That_Shuffle_Is_Random()
+    {
+        List<Vector2> newPositions = _controller.ShufflePositions();
+        List<Vector2> newPositions2 = _controller.ShufflePositions();
+        List<Vector2> newPositions3 = _controller.ShufflePositions();
+        
+        bool areEqual = newPositions.SequenceEqual(newPositions2) && newPositions.SequenceEqual(newPositions3);
+        Assert.AreNotEqual(areEqual, false, "The shuffle is not random"); // The shuffle should be random
+    }
 }
