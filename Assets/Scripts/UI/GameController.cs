@@ -94,7 +94,7 @@ namespace UI
                     Uri uri = new Uri(Application.absoluteURL);
                     NameValueCollection parameters = HttpUtility.ParseQueryString(uri.Query);
 
-                    if (Enum.TryParse(parameters["gameMode"], out GameMode gameMode))
+                    if (Enum.TryParse(parameters["gameMode"], true, out GameMode gameMode))
                     {
                         Settings.gameMode = gameMode;
                     }
