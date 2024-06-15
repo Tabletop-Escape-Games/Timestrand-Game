@@ -34,5 +34,10 @@ namespace Controllers
 
             return direction;
         }
+
+        public IReadOnlyCollection<ButtonController> GetButtonControllers() 
+        {
+            return _buttons.AsReadOnly();
+        }
     }
 }
