@@ -2,22 +2,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Controllers
+namespace UI
 {
     public class ScoreScreenController : MonoBehaviour
     {
-        [SerializeField] private Text scoreText;
-
         private void Start()
         {
             UpdateScoreUI(GameController.Instance.GetScore());
         }
         public void UpdateScoreUI(int score)
         {
-            if (scoreText != null)
-            {
-                scoreText.text = "Score: " + score;
-            }
+            FindFirstObjectByType<ScoreUI>().UpdateScore(score);
         }
     
         public void RestartGame()

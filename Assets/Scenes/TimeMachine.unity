@@ -438,10 +438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e8e4c1dca3d7045abe5502ce35d4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviationAngle: 10
   colorTag: Blue
   controlType: BlueButton
   _drawPointPrefab: {fileID: 8325900802280927610, guid: 382daf777325d8b4ab29b87a89e7f2a9, type: 3}
+  _buttonManager: {fileID: 1087036776}
 --- !u!1001 &229058838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -578,8 +578,9 @@ GameObject:
   - component: {fileID: 283399780}
   - component: {fileID: 283399779}
   - component: {fileID: 283399778}
+  - component: {fileID: 283399782}
   m_Layer: 5
-  m_Name: ProgressbarCanvas
+  m_Name: ScoreCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -669,6 +670,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &283399782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283399777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ba308dba144444e95a4a42c4f243c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreText: {fileID: 1936918691}
+  _scoreBar: {fileID: 1676524918}
+  _maxScore: 40
 --- !u!1001 &291325325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1292,12 +1308,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d99a72b299f42d58957ce2acd7ad229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  buttonPositionManager: {fileID: 1883982713}
-  _progressBar: {fileID: 1676524918}
   _pointsPerHit: 2
   _pointsTrigger: 10
   _gameMode: 0
+  scoreStrategyType: PointScore
 --- !u!4 &582430784
 Transform:
   m_ObjectHideFlags: 0
@@ -1892,10 +1906,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e8e4c1dca3d7045abe5502ce35d4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviationAngle: -10
   colorTag: Red
   controlType: RedButton
   _drawPointPrefab: {fileID: 8325900802280927610, guid: 382daf777325d8b4ab29b87a89e7f2a9, type: 3}
+  _buttonManager: {fileID: 1087036776}
 --- !u!120 &730788905
 LineRenderer:
   serializedVersion: 2
@@ -2175,10 +2189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e8e4c1dca3d7045abe5502ce35d4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviationAngle: -10
   colorTag: Yellow
   controlType: YellowButton
   _drawPointPrefab: {fileID: 8325900802280927610, guid: 382daf777325d8b4ab29b87a89e7f2a9, type: 3}
+  _buttonManager: {fileID: 1087036776}
 --- !u!120 &770421757
 LineRenderer:
   serializedVersion: 2
@@ -2550,7 +2564,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1883982712}
   - {fileID: 1748640278}
   - {fileID: 1087036775}
   m_Father: {fileID: 0}
@@ -3026,6 +3039,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1087036775}
+  - component: {fileID: 1087036776}
   m_Layer: 5
   m_Name: Controls
   m_TagString: Untagged
@@ -3045,14 +3059,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2099194114}
-  - {fileID: 376112794}
-  - {fileID: 1286766186}
-  - {fileID: 595872009}
-  - {fileID: 1474217073}
-  - {fileID: 1916532285}
-  - {fileID: 1893671293}
   - {fileID: 645291729}
+  - {fileID: 1893671293}
+  - {fileID: 1916532285}
+  - {fileID: 1474217073}
+  - {fileID: 595872009}
+  - {fileID: 1286766186}
+  - {fileID: 376112794}
+  - {fileID: 2099194114}
   m_Father: {fileID: 937178215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3060,6 +3074,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1087036776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087036774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a07dffc326694f4794ef82e023ad364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons:
+  - {fileID: 1474217073}
+  - {fileID: 1916532285}
+  - {fileID: 1893671293}
+  - {fileID: 645291729}
+  - {fileID: 2099194114}
+  - {fileID: 376112794}
+  - {fileID: 1286766186}
+  - {fileID: 595872009}
 --- !u!1001 &1088720247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4818,10 +4853,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e8e4c1dca3d7045abe5502ce35d4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviationAngle: 10
   colorTag: Green
   controlType: GreenButton
   _drawPointPrefab: {fileID: 8325900802280927610, guid: 382daf777325d8b4ab29b87a89e7f2a9, type: 3}
+  _buttonManager: {fileID: 1087036776}
 --- !u!120 &1699354569
 LineRenderer:
   serializedVersion: 2
@@ -5304,58 +5339,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871925582}
   m_CullTransparentMesh: 1
---- !u!1 &1883982711
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1883982712}
-  - component: {fileID: 1883982713}
-  m_Layer: 0
-  m_Name: ButtonPositionManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1883982712
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883982711}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 505.44147, y: -229.59187, z: -1503.9633}
-  m_LocalScale: {x: 16.6655, y: 16.6655, z: 16.6655}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 937178215}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1883982713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883982711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a07dffc326694f4794ef82e023ad364, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttons:
-  - {fileID: 2099194114}
-  - {fileID: 376112794}
-  - {fileID: 1286766186}
-  - {fileID: 595872009}
-  - {fileID: 1474217073}
-  - {fileID: 1916532285}
-  - {fileID: 1893671293}
 --- !u!1 &1893671292
 GameObject:
   m_ObjectHideFlags: 0
@@ -5883,8 +5866,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

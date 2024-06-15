@@ -1,35 +1,38 @@
 using Interfaces;
+using UI;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Profiling;
 using UnityEngine;
 
-public class ButtonLineController : ILineController
+namespace Controllers
 {
-    private string colorTag;    // the color tag of the timestrand to move
-
-    // Controller to control the line with buttons placed in screen. The constructor takes a string corresponding with the color tag
-    // of the line to control (can be used like this in factory).
-    public ButtonLineController(string colorTag)
+    public class ButtonLineController : ILineController
     {
-        this.colorTag = colorTag;
-    } 
+        private List<ButtonController> _buttons;
 
-    public Vector3 GetDirection()
-    {
-        ButtonController[] controllers = GameObject.FindObjectsOfType<ButtonController>();
-        Vector3 direction = new Vector3(0f, 1f, 0f);
-
-        // Check all controllers and verify if they are set to control this controllers color, and if the button is currently pressed
-        foreach (ButtonController controller in controllers)
+        // Controller to control the line with buttons placed in screen. The constructor takes a string corresponding with the color tag
+        // of the line to control (can be used like this in factory).
+        public ButtonLineController( List<ButtonController> buttons)
         {
-            // if so, set the direction matching to the direction defined in the controller
-            if(controller.colorTag == colorTag && controller.buttonPressed)
-            {
-                direction.x += controller.direction;
-            }
+            _buttons = buttons;
         }
 
-        return direction;
+        public Vector3 GetDirection()
+        {
+            Vector3 direction = Vector3.up;
+
+            // Check all controllers and check if the button is currently pressed
+            foreach (ButtonController button in _buttons)
+            {
+                // if so, set the direction matching to the direction defined in the controller
+                if (button.IsPressed())
+                {
+                    direction.x += button.GetDirection();
+                }
+            }
+
+            return direction;
+        }
     }
 }

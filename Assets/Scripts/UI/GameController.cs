@@ -1,21 +1,21 @@
 ﻿using Interfaces;
+using Controllers;
 using System.Web;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Collections.Specialized;
+using UnityEngine.SocialPlatforms.Impl;
+using Controllers.LineControllers;
+using Controllers.ScoreStrategies;
+using System.Collections.Generic;
 
-namespace Controllers
+namespace UI
 {
     public class GameController : MonoBehaviour
     {
         public static GameController Instance { get; private set; }
-        
-        [SerializeField] private TextMeshProUGUI _scoreText;
-        [SerializeField] private ButtonPositionManager buttonPositionManager;
-        [SerializeField] private Slider _scoreBar;
 
         [Tooltip("The amount of points to award when a line hits a target of the same color")]
         [SerializeField] int _pointsPerHit = 2;
@@ -26,8 +26,11 @@ namespace Controllers
         [Tooltip("The mode in which this game will run")]
         [SerializeField] GameMode _gameMode = GameMode.Basic;
 
-        private int _score;
-        private int _maxScore;
+        [Tooltip("The score strategy used for the game in string")]
+        [SerializeField] string scoreStrategyType = "PointScore";
+
+        private ScoreController _scoreController;
+        private IScoreStrategy _scoreStrategy;
 
         private void Awake()
         {
@@ -62,11 +65,25 @@ namespace Controllers
         
         private void Start()
         {
+            // Load configuration and save it to settings
+            SetConfiguration();
+
+            // Create a score strategy and score controller
+            _scoreStrategy = ScoreStrategyFactory.CreateScoreStrategy(scoreStrategyType);
+            if (_scoreStrategy == null)
+            {
+                Debug.LogError($"Unable to find score strategy with type '{scoreStrategyType}'");
+            }
+            _scoreController = new ScoreController(_scoreStrategy);
+        }
+
+        private void SetConfiguration()
+        {
             // Store the configuration provided to controller in the settings
             Settings.pointsPerHit = _pointsPerHit;
             Settings.pointsTrigger = _pointsTrigger;
             Settings.gameMode = _gameMode;
-            
+
             // Depending on the platform try to get the configuration from parameters
             Debug.Log("Platform: " + Application.platform);
             switch (Application.platform)
@@ -77,12 +94,12 @@ namespace Controllers
                     Uri uri = new Uri(Application.absoluteURL);
                     NameValueCollection parameters = HttpUtility.ParseQueryString(uri.Query);
 
-                    if(Enum.TryParse(parameters["gameMode"], out GameMode gameMode))
+                    if (Enum.TryParse(parameters["gameMode"], true, out GameMode gameMode))
                     {
                         Settings.gameMode = gameMode;
                     }
 
-                    if(int.TryParse(parameters["pointsPerHit"], out int pointsPerHit) && pointsPerHit > 0)
+                    if (int.TryParse(parameters["pointsPerHit"], out int pointsPerHit) && pointsPerHit > 0)
                     {
                         Settings.pointsPerHit = pointsPerHit;
                     }
@@ -98,33 +115,28 @@ namespace Controllers
                     break;
             }
             Debug.Log($"Configuration used: GameMode: {Settings.gameMode}, Points per hit: {Settings.pointsPerHit}, Points trigger: {Settings.pointsTrigger}.");
-
-            // Calculate the max achievable score
-            _maxScore = 40 * Settings.pointsPerHit; // There are currently 40 targets drawn on the canvas
-
-            // Update de UI
-            UpdateScoreUI();
         }
 
+        // Is called by a button press on MainMenu
         public void StartGame()
         {
-            _score = 0;
-            UpdateScoreUI();
+            _scoreController = new ScoreController(_scoreStrategy);
             SceneManager.LoadScene("TimeMachine");
         }
 
+        // Is called when the camera hits an object with GameOver tag
         public void GameOver()
         {
             SceneManager.LoadScene("ScoreScreen");
-            UpdateScoreUI();
         }
 
+        // Is called by a button press on ScoreScreen
         public void RestartGame()
         {
-            _score = 0;
-            SceneManager.LoadScene("TimeMachine");
+            StartGame();
         }
 
+        // Is called by a button press on ScoreScreen
         public void QuitGame()
         {
             Application.Quit();
@@ -132,26 +144,31 @@ namespace Controllers
         
         public int GetScore()
         {
-            return _score;
+            return _scoreController.Score;
         }
         
-        public void UpdateScore(IScoreStrategy scoreStrategy, int points)
+        public void AddPoints()
+        {
+            AddPoints(Settings.pointsPerHit);
+        }
+
+        public void AddPoints(int points)
         {
             // Calculate score
-            _score = scoreStrategy.CalculateScore(_score, points);
+            _scoreController.AddPoints(points);
 
             // Update the UI
             UpdateScoreUI();
 
             // If the player has a multiple of the trigger, execute action based on game mode
-            if (_score % Settings.pointsTrigger == 0)
+            if (_scoreController.Score % Settings.pointsTrigger == 0)
             {
                 switch (Settings.gameMode)
                 {
                     case GameMode.SwitchButtons:
                         // Switch buttons
-                        buttonPositionManager = FindFirstObjectByType<ButtonPositionManager>();
-                        buttonPositionManager.ChangeButtonConfiguration();
+                        ButtonManager buttonPositionUI = FindFirstObjectByType<ButtonManager>();
+                        buttonPositionUI.ChangeButtonConfiguration();
                         Debug.LogWarning("Switch buttons!");
                         break;
                     case GameMode.SpeedUp:
@@ -165,50 +182,15 @@ namespace Controllers
                 }
             }
         }
-        
-        private TextMeshProUGUI FindScoreText()
-        {
-            if (_scoreText == null)
-            {
-                // Probeer een TextMeshProUGUI object te vinden met de tag "ScoreText"
-                GameObject scoreTextObject = GameObject.FindWithTag("ScoreText");
-                if (scoreTextObject != null)
-                {
-                    _scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
-                    Debug.Log("ScoreText found");
-                } else Debug.LogWarning("ScoreText not found");
-            } 
-            return _scoreText;
-        }
 
-        private Slider FindScoreBar()
+        public void UpdateScoreUI ()
         {
-            if (_scoreBar == null)
+            ScoreUI scoreUI = FindFirstObjectByType<ScoreUI>();
+            if (scoreUI != null)
             {
-                // Probeer een Slider object te vinden met de tag "ScoreBar"
-                GameObject scoreBarObject = GameObject.FindWithTag("ScoreBar");
-                if (scoreBarObject != null)
-                {
-                    _scoreBar = scoreBarObject.GetComponent<Slider>();
-                }
-            } 
-            return _scoreBar;
-        }
-        
-        private void UpdateScoreUI()
-        {
-            _scoreText = FindScoreText();
-            if (_scoreText != null)
-            {
-                _scoreText.text = $"Score: {_score}";
-            } else Debug.LogWarning($"ScoreText not assigned. Score: {_score}");
-
-            _scoreBar = FindScoreBar();
-            if (_scoreBar != null)
-            {
-                _scoreBar.value = (float)_score / _maxScore;
+                scoreUI.UpdateScore(GetScore());
             }
-            else Debug.LogWarning("ScoreBar not assigned");
         }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using System.Collections.Generic;
 
 namespace Controllers.LineControllers
 {
@@ -13,12 +14,21 @@ namespace Controllers.LineControllers
                 "ZC" => new ZCLineController(),
                 "IP" => new IPLineController(),
                 "BM" => new BMLineController(),
-                "BlueButton" => new ButtonLineController("Blue"),
-                "RedButton" => new ButtonLineController("Red"),
-                "GreenButton" => new ButtonLineController("Green"),
-                "YellowButton" => new ButtonLineController("Yellow"),
                 _ => null
             };
+        }
+
+        public static ILineController CreateButtonLineController(string colorTag, List<ButtonController> buttons)
+        {
+            List<ButtonController> controllers = new List<ButtonController>();
+            foreach (ButtonController buttonController in buttons)
+            {
+                if (buttonController.HasColorTag(colorTag))
+                {
+                    controllers.Add(buttonController);
+                }
+            }
+            return new ButtonLineController(controllers);
         }
     }
 }

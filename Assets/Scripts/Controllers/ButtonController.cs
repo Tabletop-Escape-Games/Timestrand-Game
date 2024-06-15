@@ -1,34 +1,39 @@
-using Controllers;
-using Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine;
 
-public class ButtonController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+namespace Controllers
 {
-    public bool buttonPressed { get; private set; } // indicates whether the buttons is currently pressed
-    public float direction = 0f;                    // -1f means left, 0f means right
-    public string colorTag;                         // color tag of the line to control
-
-    // When the button is pressed we store this state
-    public void OnPointerDown(PointerEventData eventData)
+    public class ButtonController
     {
-        buttonPressed = true;
-        Debug.Log("Button "+colorTag+" pressed");
-    }
+        private bool _isPressed;
+        private string _colorTag;
+        private float _direction;
 
-    // And similarly when the button is released 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        buttonPressed = false;
-        Debug.Log("Button "+colorTag+" released");
-    }
+        public ButtonController(string colorTag, float direction)
+        {
+            _isPressed = false;
+            _colorTag = colorTag;
 
-    // At start the button is not pressed
-    void Start()
-    {
-        buttonPressed = false;
+            if(direction < 0)
+            {
+                _direction = -1f;
+            } else if (direction > 0)
+            {
+                _direction = 1f;
+            } else
+            {
+                _direction = 0f;
+            }
+        }
+
+        public void Press() { _isPressed = true; }
+
+        public void Release() { _isPressed = false; }
+
+        public bool IsPressed() { return _isPressed; }
+
+        public float GetDirection() { return _direction; }
+
+        public bool HasColorTag(string colorTag) { return _colorTag == colorTag; }
     }
 }
