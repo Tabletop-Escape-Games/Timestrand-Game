@@ -1,22 +1,39 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class ButtonController
+namespace Controllers
 {
-    private bool _isPressed;
-    private string _colorTag;
-
-    public ButtonController(string colorTag)
+    public class ButtonController
     {
-        _isPressed = false;
-        _colorTag = colorTag;
+        private bool _isPressed;
+        private string _colorTag;
+        private float _direction;
+
+        public ButtonController(string colorTag, float direction)
+        {
+            _isPressed = false;
+            _colorTag = colorTag;
+
+            if(direction < 0)
+            {
+                _direction = -1f;
+            } else if (direction > 0)
+            {
+                _direction = 1f;
+            } else
+            {
+                _direction = 0f;
+            }
+        }
+
+        public void Press() { _isPressed = true; }
+
+        public void Release() { _isPressed = false; }
+
+        public bool IsPressed() { return _isPressed; }
+
+        public float GetDirection() { return _direction; }
+
+        public bool HasColorTag(string colorTag) { return _colorTag == colorTag; }
     }
-
-    public void Press() { _isPressed = true; }
-
-    public void Release() { _isPressed = false; }
-
-    public bool IsPressed() { return _isPressed;}
-
-    public bool HasColorTag(string colorTag) { return _colorTag == colorTag;}
 }

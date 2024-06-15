@@ -1,10 +1,11 @@
-namespace Controllers
-{
-    using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.UIElements;
+using System.Collections.Generic;
+using Controllers;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-    public class ButtonPositionUI : MonoBehaviour
+namespace UI
+{
+    public class ButtonManager : MonoBehaviour
     {
         [Tooltip("List of all the buttons that should be managed")]
         [SerializeField] private List<RectTransform> _buttons;
@@ -37,6 +38,16 @@ namespace Controllers
                 buttonTransform.anchorMax = new Vector2(0.5f, 0.5f); // Set anchorMax to center
                 buttonTransform.anchoredPosition = positions[i];
             }
+        }
+
+        public List<ButtonController> GetButtonControllers() 
+        {
+            List<ButtonController> controllers = new List<ButtonController>();
+            foreach (RectTransform button in _buttons)
+            {
+                controllers.Add(button.GetComponent<ButtonUI>().Controller);
+            }
+            return controllers;
         }
     }
 

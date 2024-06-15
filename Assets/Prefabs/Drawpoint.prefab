@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlType: GreenButton
   bounceBackForce: 4
+  buttonManager: {fileID: 0}
 --- !u!50 &455881567352328003
 Rigidbody2D:
   serializedVersion: 4

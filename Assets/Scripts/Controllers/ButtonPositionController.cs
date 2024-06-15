@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Controllers
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public class ButtonPositionController
     {
         private List<Vector2> _positions = new List<Vector2>();
@@ -10,7 +10,7 @@ namespace Controllers
         public ButtonPositionController(List<Vector2> positions)
         {
             // Copy all values to a new list in order to leave the original list intact
-            foreach(var position in positions)
+            foreach (var position in positions)
             {
                 _positions.Add(position);
             }
@@ -27,5 +27,4 @@ namespace Controllers
             return _positions;
         }
     }
-
 }

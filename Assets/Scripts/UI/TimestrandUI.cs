@@ -18,6 +18,9 @@ namespace UI
         [Tooltip("The prefeb to be used for the draw point")]
         [SerializeField] private GameObject _drawPointPrefab;
 
+        [Tooltip("The buttonmanager in the game")]
+        [SerializeField] private ButtonManager _buttonManager;
+
         readonly List<Vector3> _linePositions = new(); // Lijst van posities van de lijn
         private LineRenderer _lineRenderer;
         private GameObject _linePointer;
@@ -31,7 +34,8 @@ namespace UI
 
             // Spawn a drawpoint for this strand
             _drawPointPrefab.tag = colorTag;
-            _drawPointPrefab.GetComponent<DrawpointController>().controlType = controlType;
+            _drawPointPrefab.GetComponent<DrawpointUI>().controlType = controlType;
+            _drawPointPrefab.GetComponent<DrawpointUI>().buttonManager = _buttonManager;
             _linePointer = Instantiate(_drawPointPrefab, transform, false);            
         }
 

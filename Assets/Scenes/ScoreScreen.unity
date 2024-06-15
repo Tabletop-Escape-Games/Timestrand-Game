@@ -639,7 +639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d154b648662b1449f4dafcdcc8ce3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
 --- !u!1 &1373910105
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,6 +718,7 @@ GameObject:
   - component: {fileID: 1476632779}
   - component: {fileID: 1476632781}
   - component: {fileID: 1476632780}
+  - component: {fileID: 1476632782}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -786,6 +786,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476632778}
   m_CullTransparentMesh: 1
+--- !u!114 &1476632782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476632778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ba308dba144444e95a4a42c4f243c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreText: {fileID: 147298561}
+  _scoreBar: {fileID: 0}
+  _maxScore: 0
 --- !u!1 &1564175083
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,8 +830,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d99a72b299f42d58957ce2acd7ad229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 147298561}
-  buttonPositionManager: {fileID: 0}
+  _pointsPerHit: 2
+  _pointsTrigger: 10
+  _gameMode: 0
+  scoreStrategyType: PointScore
 --- !u!4 &1564175085
 Transform:
   m_ObjectHideFlags: 0
@@ -1115,7 +1132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d154b648662b1449f4dafcdcc8ce3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
 --- !u!1 &1977841601
 GameObject:
   m_ObjectHideFlags: 0
