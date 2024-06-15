@@ -1,6 +1,6 @@
 ﻿using Interfaces;
 
-namespace Controllers.ScoreControllers
+namespace Controllers.ScoreStrategies
 {
     public class PointScoreStrategy : IScoreStrategy
     {
