@@ -14,7 +14,7 @@ namespace Controllers
         public static GameController Instance { get; private set; }
         
         [SerializeField] private TextMeshProUGUI _scoreText;
-        [SerializeField] private ButtonPositionManager buttonPositionManager;
+        [SerializeField] private ButtonPositionUI buttonPositionUI;
         [SerializeField] private Slider _scoreBar;
 
         [Tooltip("The amount of points to award when a line hits a target of the same color")]
@@ -150,8 +150,8 @@ namespace Controllers
                 {
                     case GameMode.SwitchButtons:
                         // Switch buttons
-                        buttonPositionManager = FindFirstObjectByType<ButtonPositionManager>();
-                        buttonPositionManager.ChangeButtonConfiguration();
+                        buttonPositionUI = FindFirstObjectByType<ButtonPositionUI>();
+                        buttonPositionUI.ChangeButtonConfiguration();
                         Debug.LogWarning("Switch buttons!");
                         break;
                     case GameMode.SpeedUp:

@@ -6,27 +6,27 @@ using UnityEngine;
 
 public class ButtonLineController : ILineController
 {
-    private string colorTag;    // the color tag of the timestrand to move
+    private string _colorTag;    // the color tag of the timestrand to move
 
     // Controller to control the line with buttons placed in screen. The constructor takes a string corresponding with the color tag
     // of the line to control (can be used like this in factory).
     public ButtonLineController(string colorTag)
     {
-        this.colorTag = colorTag;
+        _colorTag = colorTag;
     } 
 
     public Vector3 GetDirection()
     {
-        ButtonController[] controllers = GameObject.FindObjectsOfType<ButtonController>();
+        ButtonUI[] buttons = GameObject.FindObjectsOfType<ButtonUI>();
         Vector3 direction = new Vector3(0f, 1f, 0f);
 
         // Check all controllers and verify if they are set to control this controllers color, and if the button is currently pressed
-        foreach (ButtonController controller in controllers)
+        foreach (ButtonUI button in buttons)
         {
             // if so, set the direction matching to the direction defined in the controller
-            if(controller.colorTag == colorTag && controller.buttonPressed)
+            if(button.colorTag == _colorTag && button.Controller.IsPressed())
             {
-                direction.x += controller.direction;
+                direction.x += button.direction;
             }
         }
 
