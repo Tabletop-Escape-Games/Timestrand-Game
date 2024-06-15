@@ -46,22 +46,22 @@ namespace UI
             }
         }
         
-        //private void OnEnable()
-        //{
+        private void OnEnable()
+        {
             // Registreer de callback voor als een scène geladen is
-        //    SceneManager.sceneLoaded += OnSceneLoaded;
-        //}
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
 
-        //private void OnDisable()
-        //{
+        private void OnDisable()
+        {
             // Verwijder de registratie van de callback voor als een scène geladen is
-        //    SceneManager.sceneLoaded -= OnSceneLoaded;
-        //}
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
 
-        //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        //{
-        //    UpdateScoreUI();
-        //}
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            UpdateScoreUI();
+        }
         
         private void Start()
         {
@@ -75,7 +75,6 @@ namespace UI
                 Debug.LogError($"Unable to find score strategy with type '{scoreStrategyType}'");
             }
             _scoreController = new ScoreController(_scoreStrategy);
-            UpdateScoreUI();
         }
 
         private void SetConfiguration()
@@ -123,7 +122,6 @@ namespace UI
         {
             _scoreController = new ScoreController(_scoreStrategy);
             SceneManager.LoadScene("TimeMachine");
-            UpdateScoreUI();
         }
 
         // Is called when the camera hits an object with GameOver tag
