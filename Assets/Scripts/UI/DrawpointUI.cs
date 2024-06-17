@@ -47,7 +47,7 @@ namespace UI
         {
             // Set horizontal movement by adding force
             float dx = _lineController.GetDirection().x;
-            _rigidBody.AddForce(Vector3.right * dx * Settings.scrollSpeed);
+            _rigidBody.AddForce(Vector3.right * (dx * Settings.scrollSpeed));
 
             // But keep the vertical speed in line with the camera
             _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, Settings.scrollSpeed, 0f);
@@ -65,7 +65,7 @@ namespace UI
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collider)
+        public void OnTriggerEnter2D(Collider2D collider)
         {
             // We hebben een hit, vergelijk of de kleur van de lijn overeen komt met de kleur van het target
             if (collider.CompareTag(_colorTag))
